@@ -1,11 +1,11 @@
-#include "mini_uart.h"
+#include "pl011.h"
 
 void kernel_main(void)
 {
-	uart_init();
-	uart_send_string("Hello, world!\r\n");
+	pl011_init();
+	pl011_send_string("Hello, world!\r\n");
 
 	while (1) {
-		uart_send(uart_recv());
+		pl011_send(pl011_recv());
 	}
 }
