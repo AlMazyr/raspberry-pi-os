@@ -12,30 +12,16 @@ _start:
 
 second_startup:
 	wfe
-	cmp	x19, #1
-	b.eq	core1
-	cmp	x19, #2
-	b.eq	core2
-	cmp	x19, #3
-	b.eq	core3
+	mov 	x0, SECONDARY_STACK_START
+	mul 	x2, x0, x19		// calculate SP for each core
+	mov 	sp, x2			// setup sp for each core
+	mov	x1, #10000
+	mul	x0, x1, x19		// calc delay for each core
+	bl	delay
+	mov	x0, x19
+	bl	kernel_secondary
 proc_hang:
 	b	proc_hang
-core1:
-	mov	sp, STACK_START1
-	mov	x0, x19
-	bl	kernel_secondary
-core2:
-	mov	sp, STACK_START2
-	mov	x0, #100
-	bl	delay
-	mov	x0, x19
-	bl	kernel_secondary
-core3:
-	mov	sp, STACK_START3
-	mov	x0, #10000
-	bl	delay
-	mov	x0, x19
-	bl	kernel_secondary
 
 master:
 	adr	x0, bss_begin
