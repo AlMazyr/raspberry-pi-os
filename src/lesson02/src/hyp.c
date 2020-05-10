@@ -1,11 +1,10 @@
 #include "printf.h"
-#include "utils.h"
 #include "pl011.h"
+#include "utils.h"
 
-void kernel_main(void)
+void hyp_main()
 {
+	pl011_init();
+	init_printf(0, putc);
 	printf("Exception level: %d \r\n", get_el());
-	while (1) {
-		pl011_send(pl011_recv());
-	}
 }
