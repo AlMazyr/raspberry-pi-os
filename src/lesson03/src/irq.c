@@ -3,6 +3,7 @@
 #include "timer.h"
 #include "entry.h"
 #include "peripherals/irq.h"
+#include "irq.h"
 
 const char *entry_error_messages[] = {
 	"SYNC_INVALID_EL1t",
@@ -38,10 +39,12 @@ void show_invalid_entry_message(int type, unsigned long esr, unsigned long addre
 
 void handle_irq(void)
 {
-	unsigned int irq = get32(IRQ_PENDING_1);
+	//unsigned int irq = get32(IRQ_PENDING_1);
+	unsigned int irq = get32(CORE_IRQ0);
 	switch (irq) {
-		case (SYSTEM_TIMER_IRQ_1):
-			handle_timer_irq();
+		//case (SYSTEM_TIMER_IRQ_1):
+		case (LTIMER_IRQ):
+			handle_ltimer_irq();
 			break;
 		default:
 			printf("Unknown pending irq: %x\r\n", irq);

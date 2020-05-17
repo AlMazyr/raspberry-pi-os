@@ -16,4 +16,13 @@
 #define TIMER_CS_M2	(1 << 2)
 #define TIMER_CS_M3	(1 << 3)
 
+#define LTIMER_CS	0x40000034
+#define LTIMER_IRQ_CR	0x40000038
+#define LTIMER_IRQ_R	0x40000024
+
+#define LTIMER_IRQ0	0
+#define LTIMER_IRQ1	1
+#define LTIMER_IRQ2	2
+#define LTIMER_IRQ3	3
+
 #endif  /*_P_TIMER_H */

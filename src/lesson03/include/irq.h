@@ -1,6 +1,9 @@
 #ifndef	_IRQ_H
 #define	_IRQ_H
 
+#define CORE_IRQ0	0x40000060
+#define LTIMER_IRQ	BIT(11)
+
 void enable_interrupt_controller( void );
 
 void irq_vector_init( void );
