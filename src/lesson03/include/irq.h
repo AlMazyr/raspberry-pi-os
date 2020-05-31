@@ -3,6 +3,8 @@
 
 #define CORE_IRQ0	0x40000060
 #define LTIMER_IRQ	BIT(11)
+#define GPU_IRQ		BIT(8)
+
 
 void enable_interrupt_controller( void );
 

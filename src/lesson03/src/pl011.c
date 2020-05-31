@@ -23,7 +23,8 @@ void pl011_init()
 	put32(PL011_CR, 0);			// disable
 	put32(PL011_IBRD, PL011_IBRD_115200); 	// setup br 115200
 	put32(PL011_FBRD, PL011_FBRD_115200);
-	put32(PL011_LCRH, (3<<5)|BIT(4)); 	// set 8-bit word, enable fifo
+	put32(PL011_LCRH, (3<<5)); 	// set 8-bit word
+	put32(PL011_IMSC, BIT(4)); // enable receive interrupt
 	put32(PL011_CR, BIT(0)|BIT(8)|BIT(9)); 	//enable tx,rx
 }
 
@@ -57,4 +58,11 @@ void pl011_send_string(const char *str)
 void putc ( void* p, char c)
 {
 	pl011_send(c);
+}
+
+void pl011_irq()
+{
+	while (!(get32(PL011_FR) & BIT(4))) {
+		pl011_send(get32(PL011_DR) & 0xff);
+	}
 }

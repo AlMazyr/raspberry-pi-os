@@ -28,7 +28,6 @@ void ltimer_init()
 
 void handle_ltimer_irq()
 {
-	printf("Local timer interrupt received\n\r");
 	put32(LTIMER_IRQ_CR, BIT(31));
 }
 

@@ -4,6 +4,7 @@
 #include "entry.h"
 #include "peripherals/irq.h"
 #include "irq.h"
+#include "pl011.h"
 
 const char *entry_error_messages[] = {
 	"SYNC_INVALID_EL1t",
@@ -29,7 +30,8 @@ const char *entry_error_messages[] = {
 
 void enable_interrupt_controller()
 {
-	put32(ENABLE_IRQS_1, SYSTEM_TIMER_IRQ_1);
+	//put32(ENABLE_IRQS_1, SYSTEM_TIMER_IRQ_1); // enable System Timer irq
+	put32(ENABLE_IRQS_2, GPU_IRQ_2_UART); // enable PL011 irq
 }
 
 void show_invalid_entry_message(int type, unsigned long esr, unsigned long address)
@@ -37,16 +39,23 @@ void show_invalid_entry_message(int type, unsigned long esr, unsigned long addre
 	printf("%s, ESR: %x, address: %x\r\n", entry_error_messages[type], esr, address);
 }
 
+static void handle_gpu_irq()
+{
+	unsigned int irq = get32(IRQ_BASIC_PENDING);
+
+	if (irq & GPU_IRQ_PEND_UART)
+		pl011_irq();
+	//TODO: other gpu interrupts
+}
+
 void handle_irq(void)
 {
-	//unsigned int irq = get32(IRQ_PENDING_1);
 	unsigned int irq = get32(CORE_IRQ0);
-	switch (irq) {
-		//case (SYSTEM_TIMER_IRQ_1):
-		case (LTIMER_IRQ):
-			handle_ltimer_irq();
-			break;
-		default:
-			printf("Unknown pending irq: %x\r\n", irq);
-	}
+
+	if (irq & LTIMER_IRQ)
+		handle_ltimer_irq();
+	if (irq & GPU_IRQ)
+		handle_gpu_irq();
+	// TODO: other core interrupts
 }
+

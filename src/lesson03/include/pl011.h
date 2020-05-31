@@ -13,5 +13,6 @@ void pl011_send(char c);
 char pl011_recv();
 void pl011_send_string(const char *str);
 void putc(void *p, char c);
+void pl011_irq();
 
 #endif  /*_PL011_H */

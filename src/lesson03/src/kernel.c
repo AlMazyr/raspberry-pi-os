@@ -9,10 +9,8 @@ void kernel_main(void)
 	init_printf(0, putc);
 	irq_vector_init();
 	ltimer_init();
-	//enable_interrupt_controller();
+	enable_interrupt_controller();
 	enable_irq();
 
-	while (1){
-		pl011_send(pl011_recv());
-	}	
+	while (1);
 }

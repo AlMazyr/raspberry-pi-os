@@ -12,6 +12,7 @@
 #define PL011_FBRD	(PL011_BASE+0x28)
 #define PL011_LCRH	(PL011_BASE+0x2c)
 #define PL011_CR	(PL011_BASE+0x30)
+#define PL011_IMSC	(PL011_BASE+0x38)
 //TODO:
 
 #endif  /*_P_PL011_H */
